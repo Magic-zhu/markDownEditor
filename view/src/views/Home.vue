@@ -122,6 +122,7 @@
                 menuPosition:"",
                 ifShowMenu:false,
                 contextMenuList:[
+                    "新建目录",
                     "新建文件",
                     "删除文件",
                     "h1",
@@ -135,11 +136,9 @@
         },
         created() {
             this.listenKeyDown();
-            document.oncontextmenu=(e)=>{
-                console.log(e);
+            document.oncontextmenu = (e) => {
                 let x = e.clientX;
                 let y = e.clientY;
-                console.log(x,y)
                 this.menuPosition =` left:${x}px;top:${y}px`;
                 this.ifShowMenu =true;
                 return false;
@@ -147,17 +146,17 @@
         },
         mounted() {
             //监听主进程的消息
-            ipcRenderer.on("filedata", (event, arg) => {
-                this.inputValue = arg.data;
-                this.nowPath = arg.path;
-                this.result = md.render(this.inputValue);
-            });
-            ipcRenderer.on("filetree", (event, arg) => {
-                this.filetree = arg;
-            });
-            ipcRenderer.on("saveSuccess", (e, back) => {
-                this.$message.success("保存成功");
-            });
+            // ipcRenderer.on("filedata", (event, arg) => {
+            //     this.inputValue = arg.data;
+            //     this.nowPath = arg.path;
+            //     this.result = md.render(this.inputValue);
+            // });
+            // ipcRenderer.on("filetree", (event, arg) => {
+            //     this.filetree = arg;
+            // });
+            // ipcRenderer.on("saveSuccess", (e, back) => {
+            //     this.$message.success("保存成功");
+            // });
         },
         methods: {
             tr() {
