@@ -1,6 +1,5 @@
 <template>
     <div id="app">
-        <div class="file-tree"></div>
         <router-view/>
     </div>
 </template>
@@ -9,9 +8,5 @@
     * {
         margin: 0;
         padding: 0;
-    }
-
-    #app {
-
     }
 </style>
