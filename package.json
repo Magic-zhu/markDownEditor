@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-packager . --ignore='./node_modules'",
-    "build:win":"electron-packager . --overwrite --platform=win32 --arch=ia32"
+    "build:win": "electron-packager . --overwrite --platform=win32 --arch=ia32"
   },
   "author": "magic-zhu",
   "license": "MIT",

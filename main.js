@@ -10,6 +10,7 @@ Menu.setApplicationMenu(menu);
 
 //创建窗口
 function createWindow() {
+
     // 创建浏览器窗口
     var win = new BrowserWindow({
         width: 1334, 
@@ -19,10 +20,13 @@ function createWindow() {
         },
         resizable:false,
     })
+
     // 然后加载 app 的 index.html.
     win.loadFile('./index.html');
+
     // 打开调试工具
     // win.webContents.openDevTools();
+
     //获取文件数据
     ipcMain.on("getFileData",(event, path)=>{
         fs.readFile(path,(err,data)=>{
@@ -39,6 +43,10 @@ function createWindow() {
             if (err) throw err;
             win.webContents.send("saveSuccess",1);
         });
+    })
+    //新建文件
+    ipcMain.on("newFile",(e,data)=>{
+
     })
 }
 

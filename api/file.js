@@ -1,6 +1,11 @@
 const { dialog} = require('electron');
 const fs = require('fs');
 const path = require('path');
+const { app } = require('electron');
+/**
+ * 打开文件夹
+ * @param {*} win - 窗口实例
+ */
 function openFileDir(win){
     dialog.showOpenDialog({properties:['openDirectory']},(files)=>{
         if(files){
@@ -12,6 +17,10 @@ function openFileDir(win){
         }
     })
 }
+/**
+ * 打开文件
+ * @param {*} win - 窗口实例
+ */
 function openFile(win){
     dialog.showOpenDialog({properties:['openFile']},(files)=>{
         if(files){
@@ -19,6 +28,7 @@ function openFile(win){
                 if(err){
                     throw err
                 }else{  
+                    app.addRecentDocument(files[0]);
                     win.webContents.send("filedata",{data:data.toString(),path:files[0]})
                 }
             })
@@ -53,4 +63,25 @@ function MapChildren(files,tree,oriPath){
         }
     }
 }
+/**
+ * 新建文件
+ */
+function createNewFile(mainPath){
+    //读取当前目录 判断是否有重名
+    
+    fs.writeFileSync()
+}
+
+/**
+ * 删除文件
+ * @param {*} params 
+ */
+function deleteFile(params) {
+    
+}
+
+function renameFile(){
+
+}
+
 module.exports ={openFileDir,openFile}
