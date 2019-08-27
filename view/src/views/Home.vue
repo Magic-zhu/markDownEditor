@@ -87,6 +87,7 @@
         </div>
         <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
       </div>
+      <div v-html="outValue"></div>
     </div>
     <div class="contextMenu" v-if="ifShowMenu" :style="menuPosition">
       <div v-for="(item,index) in contextMenuList" :key="index">{{item}}</div>
@@ -96,7 +97,7 @@
 
 <script>
 import hljs from "highlight.js";
-
+var pa = require("../TextParser.js");
 var md = require("markdown-it")({
   html: true,
   linkify: true,
@@ -124,6 +125,7 @@ export default {
     return {
       result: "",
       inputValue: "",
+      outValue:"",
       view: 1,
       filetree: [], //文件树列表
       nowPath: "",
@@ -156,21 +158,28 @@ export default {
   },
   mounted() {
     //监听主进程的消息
-    ipcRenderer.on("filedata", (event, arg) => {
-        this.inputValue = arg.data;
-        this.nowPath = arg.path;
-        this.result = md.render(this.inputValue);
-    });
-    ipcRenderer.on("filetree", (event, arg) => {
-        this.filetree = arg;
-    });
-    ipcRenderer.on("saveSuccess", (e, back) => {
-        this.$message.success("保存成功");
-    });
+    // ipcRenderer.on("filedata", (event, arg) => {
+    //     this.inputValue = arg.data;
+    //     this.nowPath = arg.path;
+    //     this.result = md.render(this.inputValue);
+    // });
+    // ipcRenderer.on("filetree", (event, arg) => {
+    //     this.filetree = arg;
+    // });
+    // ipcRenderer.on("saveSuccess", (e, back) => {
+    //     this.$message.success("保存成功");
+    // });
+    // ipcRenderer.on("createSuccess",(e, back)=>{
+    //     this.$message.success("新建成功");
+    // });
+    // ipcRenderer.on("deleteSuccess",(e, back)=>{
+    //     this.$message.success("删除成功");
+    // })
   },
   methods: {
     tr() {
       this.result = md.render(this.inputValue);
+      this.outValue = pa.render(this.inputValue);
     },
     /**
      * 功能按键

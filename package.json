@@ -1,21 +1,20 @@
 {
   "name": "mkeditor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "a simple markdown editor",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . --ignore='./node_modules'",
+    "build": "electron-packager .",
     "build:win": "electron-packager . --overwrite --platform=win32 --arch=ia32"
   },
   "author": "magic-zhu",
   "license": "MIT",
   "dependencies": {
-    "electron": "^5.0.5",
-    "markdown-it-ins": "^2.0.0"
+    "electron": "^5.0.8"
   },
   "devDependencies": {
-    "electron-packager": "^14.0.0",
+    "electron-packager": "^14.0.4",
     "gulp": "^4.0.2"
   }
 }
