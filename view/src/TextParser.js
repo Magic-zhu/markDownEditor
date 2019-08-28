@@ -3,17 +3,19 @@ class Parser{
         this.originValue = "";
         this.tempValue ='';
         this.lineValue ='';
-        this.title_reg = /#+/g;
+        this.title_reg = /#+\/n/g;
         this.df = this.debounce(()=>{
             let childArr =[]; //匹配到的字符串数组
             let indexArr =[]; //索引数组
-            childArr = this.originValue.match(this.title_reg);
-            while (this.title_reg.exec(this.originValue) != null){
-                let temp = this.title_reg.exec(this.originValue);
-                indexArr.push(temp)
+            this.tempValue = this.originValue;
+            childArr = this.originValue.match(this.title_reg)||[];
+            childArr = [...new Set(childArr)];
+            for(let i=0;i<childArr.length;i++){
+                let reg = new RegExp(childArr[i],"gm")
+                this.tempValue = this.tempValue.replace(reg,`<span style="color:red">${childArr[i]}</span>`);
             }
-            console.log(childArr,indexArr)
-        },500)
+            console.log(this.tempValue);
+        },200)
     }
     render(value){
         this.originValue = value;
