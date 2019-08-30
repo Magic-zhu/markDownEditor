@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author:magic-zhu
  * @Date: 2019-08-27 11:44:56
- * @LastEditTime: 2019-08-30 15:33:02
+ * @LastEditTime: 2019-08-30 18:21:38
  * @LastEditors: Please set LastEditors
  */
 class Parser{
@@ -17,8 +17,7 @@ class Parser{
        return this.format();
     }
     format(){
-            let childArr =[]; //匹配到的字符串数组
-            let tempArr =[]; //临时
+            let tempArr =[];  //临时
             this.tempValue = this.originValue;
             //处理换行符
             tempArr = this.tempValue.split("\n");
@@ -29,8 +28,9 @@ class Parser{
                 }
             }
             //处理###这样的标题
+            let childArr =[];  //匹配到的字符串数组
             childArr = this.originValue.match(this.title_reg)||[];
-            if(childArr!=[]){
+            if (childArr.length!=0){
                 childArr = [...new Set(childArr)];
                 for(let i=0;i<childArr.length;i++){
                     let reg = new RegExp(childArr[i],"gm");

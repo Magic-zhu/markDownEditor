@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: magic-zhu
  * @Date: 2019-07-02 16:16:47
- * @LastEditTime: 2019-08-30 13:58:15
+ * @LastEditTime: 2019-08-30 18:22:21
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="content" :style="content_style">
-        <div class="left_side" v-if="view!=2">
+          <div class="left_side" v-if="view!=2" style="opacity:0">
           <textarea
             name
             id
@@ -94,7 +94,7 @@
         </div>
         <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
       </div>
-      <div v-html="outValue" style="position:fixed;right:0;top:0;width:400px;height:400px;"></div>
+      <div v-html="outValue" style="position:fixed;left:0;top:0;width:400px;height:400px;"></div>
     </div>
     <div class="contextMenu" v-if="ifShowMenu" :style="menuPosition">
       <div v-for="(item,index) in contextMenuList" :key="index">{{item}}</div>
