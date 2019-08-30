@@ -7,7 +7,6 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "electron": "^5.0.5",
     "element-ui": "^2.8.2",
     "highlight.js": "^9.15.8",
     "linkify-it": "^2.1.0",
