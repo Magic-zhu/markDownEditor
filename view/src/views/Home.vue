@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: magic-zhu
+ * @Date: 2019-07-02 16:16:47
+ * @LastEditTime: 2019-08-30 13:58:15
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div class="wrapper" @click="ifShowMenu=false">
     <div class="filetree">
@@ -87,7 +94,7 @@
         </div>
         <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
       </div>
-      <div v-html="outValue"></div>
+      <div v-html="outValue" style="position:fixed;right:0;top:0;width:400px;height:400px;"></div>
     </div>
     <div class="contextMenu" v-if="ifShowMenu" :style="menuPosition">
       <div v-for="(item,index) in contextMenuList" :key="index">{{item}}</div>
@@ -119,40 +126,40 @@ var md = require("markdown-it")({
 })
   .use(require("markdown-it-mark"))
   .use(require("markdown-it-ins"));
+var menuConfig = {
+  editor: ["h1", "h2", "h3", "h4", "h5", "h6"],
+  fileTree: ["新建目录", "新建文件", "删除文件"]
+};
 export default {
   name: "home",
   data() {
     return {
       result: "",
       inputValue: "",
-      outValue:"",
+      outValue: "",
       view: 1,
       filetree: [], //文件树列表
       nowPath: "",
       content_style: "",
       right_side_style: "",
       menuPosition: "",
-      ifShowMenu: false,
-      contextMenuList: [
-        "新建目录",
-        "新建文件",
-        "删除文件",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6"
-      ]
+      ifShowMenu: false, //是否显示右键菜单
+      contextMenuList: [] //当前显示的菜单
     };
   },
   created() {
     this.listenKeyDown();
     document.oncontextmenu = e => {
+      console.log(e);
       let x = e.clientX;
       let y = e.clientY;
       this.menuPosition = ` left:${x}px;top:${y}px`;
+      if (e.target.className == "inputArea")
+        this.contextMenuList = menuConfig.editor;
+      if (e.target.className == "filetree")
+        this.contextMenuList = menuConfig.fileTree;
       this.ifShowMenu = true;
+      if (e.target.className == "right_side") this.ifShowMenu = false;
       return false;
     };
   },
@@ -178,8 +185,8 @@ export default {
   },
   methods: {
     tr() {
-      this.result = md.render(this.inputValue);
       this.outValue = pa.render(this.inputValue);
+      this.result = md.render(this.inputValue);
     },
     /**
      * 功能按键
@@ -235,8 +242,8 @@ export default {
           this.view = this.view == 1 ? 0 : 1;
           break;
         case "eye":
-           this.view = this.view ==2? 1 : 2;
-          break;    
+          this.view = this.view == 2 ? 1 : 2;
+          break;
         case "clear":
           this.inputValue = "";
           this.tr();
@@ -265,7 +272,7 @@ export default {
      * 监听按键
      */
     listenKeyDown() {
-      document.addEventListener("keydown", e => {
+      document.addEventListener("keypress", e => {
         //换行
         if (e.ctrlKey && e.key == "Enter") {
           this.funcBtn("br");
@@ -327,10 +334,6 @@ export default {
         ipcRenderer.send("getFileData", obj.filepath);
       }
     },
-    /**
-     * 右键菜单劫持
-     */
-    createContextMenu(e) {},
     insertText(text) {
       document.execCommand("insertText", false, text);
     }
@@ -401,9 +404,13 @@ export default {
   position: fixed;
   width: 200px;
   height: auto;
-  background-color: lightcyan;
+  background-color: lightgrey;
   color: black;
+  box-shadow: #eeeeee 1px 2px 4px 2px;
   cursor: default;
+  div {
+    padding: 5px;
+  }
   div:hover {
     background-color: blue;
     color: white;

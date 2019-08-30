@@ -1,42 +1,43 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author:magic-zhu
+ * @Date: 2019-08-27 11:44:56
+ * @LastEditTime: 2019-08-30 14:15:48
+ * @LastEditors: Please set LastEditors
+ */
 class Parser{
     constructor(){
         this.originValue = "";
         this.tempValue ='';
         this.lineValue ='';
-        this.title_reg = /#+\/n/g;
-        this.df = this.debounce(()=>{
-            let childArr =[]; //匹配到的字符串数组
-            let indexArr =[]; //索引数组
-            this.tempValue = this.originValue;
-            childArr = this.originValue.match(this.title_reg)||[];
-            childArr = [...new Set(childArr)];
-            for(let i=0;i<childArr.length;i++){
-                let reg = new RegExp(childArr[i],"gm")
-                this.tempValue = this.tempValue.replace(reg,`<span style="color:red">${childArr[i]}</span>`);
-            }
-            console.log(this.tempValue);
-        },200)
+        this.title_reg = /#+/g;
     }
     render(value){
         this.originValue = value;
-        this.format();
+       return this.format();
     }
     format(){
-       this.df();
-    }
-    debounce(fn,wait){
-        var timeout = null;
-        return function () {
-            if(timeout){
-                clearTimeout(timeout);
-                timeout = null;
-            }else {
-                timeout = setTimeout(()=>{
-                    fn.apply(this,arguments);
-                    timeout = null;
-                }, wait);
+            let childArr =[]; //匹配到的字符串数组
+            let tempArr =[]; //临时
+            this.tempValue = this.originValue;
+            //处理换行符
+            tempArr = this.tempValue.split("\n");
+            if(tempArr.length!=0){
+                this.tempValue="";
+                for(let i=0;i<tempArr.length;i++){
+                    this.tempValue+=`<p>${tempArr[i]}</p>`
+                }
             }
-        }
+            //处理###这样的标题
+            childArr = this.originValue.match(this.title_reg)||[];
+            if(childArr!=[]){
+                childArr = [...new Set(childArr)];
+                for(let i=0;i<childArr.length;i++){
+                    let reg = new RegExp(childArr[i],"gm")
+                    this.tempValue = this.tempValue.replace(reg,`<span style="color:red">${childArr[i]}</span>`);
+                }
+            }
+            return `<div>${this.tempValue}</div>`
     }
     //自动替换
     replace(){
