@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author:magic-zhu
  * @Date: 2019-08-27 11:44:56
- * @LastEditTime: 2019-08-30 14:15:48
+ * @LastEditTime: 2019-08-30 15:33:02
  * @LastEditors: Please set LastEditors
  */
 class Parser{
@@ -33,15 +33,11 @@ class Parser{
             if(childArr!=[]){
                 childArr = [...new Set(childArr)];
                 for(let i=0;i<childArr.length;i++){
-                    let reg = new RegExp(childArr[i],"gm")
+                    let reg = new RegExp(childArr[i],"gm");
                     this.tempValue = this.tempValue.replace(reg,`<span style="color:red">${childArr[i]}</span>`);
                 }
             }
             return `<div>${this.tempValue}</div>`
-    }
-    //自动替换
-    replace(){
-
     }
 }
 module.exports = new Parser();
