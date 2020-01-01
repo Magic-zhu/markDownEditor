@@ -81,7 +81,8 @@
         </div>
       </div>
       <div class="content" :style="content_style">
-          <div class="left_side" v-if="view!=2" style="opacity:0">
+        <div id="editor" class="left_side"></div>
+        <!-- <div class="left_side" v-if="view!=2" style="opacity:0">
           <textarea
             name
             id
@@ -91,7 +92,7 @@
             autoHeight="true"
             spellcheck="false"
           ></textarea>
-        </div>
+        </div> -->
         <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
       </div>
       <div v-html="outValue" style="position:fixed;left:0;top:0;width:400px;height:400px;"></div>
@@ -104,6 +105,8 @@
 
 <script>
 import hljs from "highlight.js";
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
+import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution'
 var pa = require("../TextParser.js");
 var md = require("markdown-it")({
   html: true,
@@ -130,6 +133,7 @@ var menuConfig = {
   editor: ["h1", "h2", "h3", "h4", "h5", "h6"],
   fileTree: ["新建目录", "新建文件", "删除文件"]
 };
+var Editor;
 export default {
   name: "home",
   data() {
@@ -182,6 +186,11 @@ export default {
     // ipcRenderer.on("deleteSuccess",(e, back)=>{
     //     this.$message.success("删除成功");
     // })
+    Editor = monaco.editor.create(document.getElementById('editor'), {
+      value: this.inputValue,
+      language: 'markdown',
+      theme:"vs-dark"
+    });
   },
   methods: {
     tr() {
