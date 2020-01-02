@@ -1,10 +1,3 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: magic-zhu
- * @Date: 2019-07-02 16:16:47
- * @LastEditTime: 2019-08-30 18:22:21
- * @LastEditors: Please set LastEditors
- -->
 <template>
     <div class="wrapper" @click="ifShowMenu=false">
         <div class="filetree">
@@ -100,47 +93,6 @@
         <div class="contextMenu" v-if="ifShowMenu" :style="menuPosition">
             <div v-for="(item,index) in contextMenuList" :key="index">{{item}}</div>
         </div>
-        <div>
-          <el-button-group>
-            <el-tooltip class="item" effect="dark" content="保存文件" placement="bottom-start">
-              <el-button type="default" size="small" @click="funcBtn('save')">
-                <i class="fa fa-save"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="编辑视图" placement="bottom-start">
-              <el-button type="default" size="small" @click="funcBtn('view')">
-                <i class="fa fa-columns"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="预览视图" placement="bottom-start">
-              <el-button type="default" size="small" @click="funcBtn('eye')">
-                <i class="fa fa-eye"></i>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="清除全部" placement="bottom-start">
-              <el-button type="default" size="small" @click="funcBtn('clear')">
-                <i class="fa fa-eraser"></i>
-              </el-button>
-            </el-tooltip>
-          </el-button-group>
-        </div>
-      </div>
-      <div class="content" :style="content_style">
-        <div id="editor" class="left_side"></div>
-        <!-- <div class="left_side" v-if="view!=2" style="opacity:0">
-          <textarea
-            name
-            id
-            v-model="inputValue"
-            @input="tr($event)"
-            class="inputArea"
-            autoHeight="true"
-            spellcheck="false"
-          ></textarea>
-        </div> -->
-        <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
-      </div>
-      <div v-html="outValue" style="position:fixed;left:0;top:0;width:400px;height:400px;"></div>
     </div>
 </template>
 
@@ -153,7 +105,7 @@ var md = require("markdown-it")({
   html: true,
   linkify: true,
   typographer: true,
-  highlight: function(str, lang) {
+  highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return (
@@ -163,16 +115,9 @@ var md = require("markdown-it")({
         );
       } catch (__) {}
     }
-  })
-    .use(require('markdown-it-mark'))
-    .use(require('markdown-it-ins'))
-  var menuConfig = {
-    editor: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-    fileTree: ['新建目录', '新建文件', '删除文件']
   }
-})
-  .use(require("markdown-it-mark"))
-  .use(require("markdown-it-ins"));
+}).use(require('markdown-it-mark'))
+  .use(require('markdown-it-ins'))
 var menuConfig = {
   editor: ["h1", "h2", "h3", "h4", "h5", "h6"],
   fileTree: ["新建目录", "新建文件", "删除文件"]
@@ -180,7 +125,7 @@ var menuConfig = {
 var Editor;
 export default {
   name: "home",
-  data() {
+  data () {
     return {
       result: "",
       inputValue: "",
@@ -195,7 +140,7 @@ export default {
       contextMenuList: [] //当前显示的菜单
     };
   },
-  created() {
+  created () {
     this.listenKeyDown();
     document.oncontextmenu = e => {
       console.log(e);
@@ -211,7 +156,7 @@ export default {
       return false;
     };
   },
-  mounted() {
+  mounted () {
     //监听主进程的消息
     // ipcRenderer.on("filedata", (event, arg) => {
     //     this.inputValue = arg.data;
@@ -230,124 +175,9 @@ export default {
     // ipcRenderer.on("deleteSuccess",(e, back)=>{
     //     this.$message.success("删除成功");
     // })
-    Editor = monaco.editor.create(document.getElementById('editor'), {
-      value: this.inputValue,
-      language: 'markdown',
-      theme:"vs-dark"
-    });
   },
   methods: {
-    tr() {
-      this.outValue = pa.render(this.inputValue);
-      this.result = md.render(this.inputValue);
-    },
-    /**
-     * 功能按键
-     */
-    funcBtn(type) {
-      switch (type) {
-        case "h1":
-          this.insertText("#");
-          break;
-        case "h2":
-          this.insertText("##");
-          break;
-        case "h3":
-          this.insertText("###");
-          break;
-        case "h4":
-          this.insertText("####");
-          break;
-        case "h5":
-          this.insertText("#####");
-          break;
-        case "h6":
-          this.insertText("######");
-          break;
-        case "br":
-          this.insertText("</br>");
-          break;
-        case "bold":
-          this.replaceSelectedWords("**");
-          break;
-        case "italic":
-          this.replaceSelectedWords("*");
-          break;
-        case "strikethrough":
-          this.replaceSelectedWords("~~");
-          break;
-        case "underline":
-          this.replaceSelectedWords("++");
-          break;
-        case "marked":
-          this.replaceSelectedWords("==");
-          break;
-        case "list-ul":
-          this.insertText("- ");
-          break;
-        case "red":
-          this.replaceSelectedWords("<span style='color: red'>", "</span>");
-          break;
-        case "link":
-          this.replaceSelectedWords("[", "](https://)");
-          break;
-        case "view":
-          this.view = this.view == 1 ? 0 : 1;
-          break;
-        case "eye":
-          this.view = this.view == 2 ? 1 : 2;
-          break;
-        case "clear":
-          this.inputValue = "";
-          this.tr();
-          break;
-        case "save":
-          ipcRenderer.send("saveFile", {
-            fileContent: this.inputValue,
-            path: this.nowPath
-          });
-          break;
-      }
-    },
-    created () {
-      this.listenKeyDown()
-      document.oncontextmenu = e => {
-        console.log(e)
-        let x = e.clientX
-        let y = e.clientY
-        this.menuPosition = ` left:${x}px;top:${y}px`
-        if (e.target.className === 'inputArea')
-          this.contextMenuList = menuConfig.editor
-        if (e.target.className === 'filetree')
-          this.contextMenuList = menuConfig.fileTree
-        this.ifShowMenu = true
-        if (e.target.className === 'right_side') this.ifShowMenu = false
-        return false
-      }
-    },
-    mounted () {
-      //监听主进程的消息
-      // ipcRenderer.on("filedata", (event, arg) => {
-      //     this.inputValue = arg.data;
-      //     this.nowPath = arg.path;
-      //     this.result = md.render(this.inputValue);
-      // });
-      // ipcRenderer.on("filetree", (event, arg) => {
-      //     this.filetree = arg;
-      // });
-      // ipcRenderer.on("saveSuccess", (e, back) => {
-      //     this.$message.success("保存成功");
-      // });
-      // ipcRenderer.on("createSuccess",(e, back)=>{
-      //     this.$message.success("新建成功");
-      // });
-      // ipcRenderer.on("deleteSuccess",(e, back)=>{
-      //     this.$message.success("删除成功");
-      // })
-    },
-    methods: {
       tr () {
-        this.outValue = pa.render(this.inputValue)
         this.result = md.render(this.inputValue)
       },
       /**
@@ -498,9 +328,9 @@ export default {
       },
       insertText (text) {
         document.execCommand('insertText', false, text)
-      }
-    }
+      },
   }
+}
 </script>
 <style lang="less" scoped>
     .wrapper {
@@ -587,6 +417,10 @@ export default {
 
     .mr10 {
         margin-right: 10px;
+    }
+    #editor{
+        padding: 0;
+        margin: 0;
     }
 </style>
 
