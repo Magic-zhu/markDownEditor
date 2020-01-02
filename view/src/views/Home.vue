@@ -91,92 +91,93 @@
         </div>
         <!--右键菜单-->
         <div class="contextMenu" v-if="ifShowMenu" :style="menuPosition">
-            <div v-for="(item,index) in contextMenuList" :key="index">{{item}}</div>
+            <div v-for="(item,index) in contextMenuList" :key="index" @click="handleContextMenuClick(item)">{{item
+                }}</div>
         </div>
     </div>
 </template>
 
 <script>
-import hljs from "highlight.js";
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
-import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution'
-var pa = require("../TextParser.js");
-var md = require("markdown-it")({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return (
-          '<pre class="hljs"><code>' +
-          hljs.highlight(lang, str, true).value +
-          "</code></pre>"
-        );
-      } catch (__) {}
+  import hljs from 'highlight.js'
+  import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
+  import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution'
+
+  var pa = require('../TextParser.js')
+  var md = require('markdown-it')({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return (
+            '<pre class="hljs"><code>' +
+            hljs.highlight(lang, str, true).value +
+            '</code></pre>'
+          )
+        } catch (__) {}
+      }
     }
+  }).use(require('markdown-it-mark'))
+    .use(require('markdown-it-ins'))
+  var menuConfig = {
+    editor: ['暂无'],
+    fileTree: ['新建目录', '新建文件', '删除文件']
   }
-}).use(require('markdown-it-mark'))
-  .use(require('markdown-it-ins'))
-var menuConfig = {
-  editor: ["h1", "h2", "h3", "h4", "h5", "h6"],
-  fileTree: ["新建目录", "新建文件", "删除文件"]
-};
-var Editor;
-export default {
-  name: "home",
-  data () {
-    return {
-      result: "",
-      inputValue: "",
-      outValue: "",
-      view: 1,
-      filetree: [], //文件树列表
-      nowPath: "",
-      content_style: "",
-      right_side_style: "",
-      menuPosition: "",
-      ifShowMenu: false, //是否显示右键菜单
-      contextMenuList: [] //当前显示的菜单
-    };
-  },
-  created () {
-    this.listenKeyDown();
-    document.oncontextmenu = e => {
-      console.log(e);
-      let x = e.clientX;
-      let y = e.clientY;
-      this.menuPosition = ` left:${x}px;top:${y}px`;
-      if (e.target.className == "inputArea")
-        this.contextMenuList = menuConfig.editor;
-      if (e.target.className == "filetree")
-        this.contextMenuList = menuConfig.fileTree;
-      this.ifShowMenu = true;
-      if (e.target.className == "right_side") this.ifShowMenu = false;
-      return false;
-    };
-  },
-  mounted () {
-    //监听主进程的消息
-    // ipcRenderer.on("filedata", (event, arg) => {
-    //     this.inputValue = arg.data;
-    //     this.nowPath = arg.path;
-    //     this.result = md.render(this.inputValue);
-    // });
-    // ipcRenderer.on("filetree", (event, arg) => {
-    //     this.filetree = arg;
-    // });
-    // ipcRenderer.on("saveSuccess", (e, back) => {
-    //     this.$message.success("保存成功");
-    // });
-    // ipcRenderer.on("createSuccess",(e, back)=>{
-    //     this.$message.success("新建成功");
-    // });
-    // ipcRenderer.on("deleteSuccess",(e, back)=>{
-    //     this.$message.success("删除成功");
-    // })
-  },
-  methods: {
+  var Editor
+  export default {
+    name: 'home',
+    data () {
+      return {
+        result: '',
+        inputValue: '',
+        outValue: '',
+        view: 1,
+        filetree: [], //文件树列表
+        nowPath: '',
+        content_style: '',
+        right_side_style: '',
+        menuPosition: '',
+        ifShowMenu: false, //是否显示右键菜单
+        contextMenuList: [] //当前显示的菜单
+      }
+    },
+    created () {
+      this.listenKeyDown()
+      document.oncontextmenu = e => {
+        let x = e.clientX
+        let y = e.clientY
+        this.menuPosition = ` left:${x}px;top:${y}px`
+        if (e.target.className == 'inputArea')
+          this.contextMenuList = menuConfig.editor
+        if (e.target.className == 'filetree')
+          this.contextMenuList = menuConfig.fileTree
+        this.ifShowMenu = true
+        if (e.target.className == 'right_side') this.ifShowMenu = false
+        return false
+      }
+    },
+    mounted () {
+      //监听主进程的消息
+      // ipcRenderer.on("filedata", (event, arg) => {
+      //     this.inputValue = arg.data;
+      //     this.nowPath = arg.path;
+      //     this.result = md.render(this.inputValue);
+      // });
+      // ipcRenderer.on("filetree", (event, arg) => {
+      //     this.filetree = arg;
+      // });
+      // ipcRenderer.on("saveSuccess", (e, back) => {
+      //     this.$message.success("保存成功");
+      // });
+      // ipcRenderer.on("createSuccess",(e, back)=>{
+      //     this.$message.success("新建成功");
+      // });
+      // ipcRenderer.on("deleteSuccess",(e, back)=>{
+      //     this.$message.success("删除成功");
+      // })
+    },
+    methods: {
       tr () {
         this.result = md.render(this.inputValue)
       },
@@ -329,8 +330,12 @@ export default {
       insertText (text) {
         document.execCommand('insertText', false, text)
       },
+      //处理右键菜单的点击事件
+      handleContextMenuClick (item) {
+
+      },
+    }
   }
-}
 </script>
 <style lang="less" scoped>
     .wrapper {
@@ -418,7 +423,8 @@ export default {
     .mr10 {
         margin-right: 10px;
     }
-    #editor{
+
+    #editor {
         padding: 0;
         margin: 0;
     }
