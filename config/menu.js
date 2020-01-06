@@ -6,35 +6,35 @@ const template = [
             submenu: [
             { role: 'about' },
             { type: 'separator' },
-            // { role: 'services' },
-            // { type: 'separator' },
-            // { role: 'hide' },
-            // { role: 'hideothers' },
-            // { role: 'unhide' },
-            // { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideothers' },
+            { role: 'unhide' },
+            { type: 'separator' },
             { role: 'quit' }
         ]
     },
     {
-        label:"文件",
+        label:"file",
         submenu:[
             {click:(item,win)=>{
                 openFileDir(win);
             },
-            label:"打开文件夹",
+            label:"openFolder",
             accelerator: 'CmdOrCtrl+P'
             },
             {
                 click:(item,win)=>{
                     openFile(win);
                 },
-                label:"打开文件",
+                label:"openFile",
                 accelerator: 'CmdOrCtrl+O'
             }
         ]
     },
     {
-        label:"编辑",
+        label:"edit",
         submenu:[
             { role: 'undo' },
             { role: 'redo' },

@@ -1,18 +1,7 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-07-02 16:16:47
- * @LastEditTime: 2019-08-30 10:35:54
- * @LastEditors: Please set LastEditors
- */
 const electron = require('electron');
 const template = require('./config/menu');
 const fs = require('fs');
 const {app, BrowserWindow, Menu, ipcMain} = require('electron');
-// const {openFile} = require("./api/file");
-//设置菜单
-const menu = Menu.buildFromTemplate(template);
-Menu.setApplicationMenu(menu);
 
 
 //创建窗口
@@ -28,6 +17,10 @@ function createWindow() {
         resizable:false,
     })
 
+    //设置菜单
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+    
     // 然后加载 app 的 index.html.
     win.loadFile('./index.html');
 

@@ -75,16 +75,7 @@
             </div>
             <div class="content" :style="content_style">
                 <div class="left_side" v-if="view!=2">
-                    <textarea
-                            v-model="inputValue"
-                            @input="tr($event)"
-                            class="inputArea"
-                            autoHeight="true"
-                            spellcheck="false"
-                            style="opacity:100"
-                    >
-                    </textarea>
-                    <div v-html="outValue" class="out_value"></div>
+                    <div contenteditable="true" class="inputArea" @input="tr($event)"></div>
                 </div>
                 <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
             </div>
@@ -124,7 +115,6 @@
     editor: ['暂无'],
     fileTree: ['新建目录', '新建文件', '删除文件']
   }
-  var Editor
   export default {
     name: 'home',
     data () {
@@ -178,7 +168,9 @@
       // })
     },
     methods: {
-      tr () {
+      tr (e) {
+        console.log(e)
+        this.inputValue += e.data;
         this.result = md.render(this.inputValue)
       },
       /**
