@@ -75,7 +75,7 @@
             </div>
             <div class="content" :style="content_style">
                 <div class="left_side" v-if="view!=2">
-                    <div contenteditable="true" class="inputArea" @input="tr($event)"></div>
+                    <div contenteditable="true" class="inputArea" @input="tr($event)" ref='editor'></div>
                 </div>
                 <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
             </div>
@@ -168,10 +168,13 @@
       // })
     },
     methods: {
-      tr (e) {
-        console.log(e)
-        this.inputValue += e.data;
-        this.result = md.render(this.inputValue)
+      tr (e) {      
+        console.log(e.target.innerHTML)
+        // innerHTML("<span style='color:red'>这里是红色</span>")
+        if(e.data){
+          this.inputValue += e.data;
+          this.result = md.render(this.inputValue);
+        }
       },
       /**
        * 功能按键
