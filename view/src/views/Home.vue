@@ -75,7 +75,7 @@
             </div>
             <div class="content" :style="content_style">
                 <div class="left_side" v-if="view!=2">
-                    <div contenteditable="true" class="inputArea" @input="tr($event)" ref='editor'></div>
+                    <div contenteditable="true" class="inputArea" @input="tr($event)"></div>
                 </div>
                 <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
             </div>
@@ -89,11 +89,10 @@
 </template>
 
 <script>
+
   import hljs from 'highlight.js'
   import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
   import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution'
-
-  var pa = require('../TextParser.js')
   var md = require('markdown-it')({
     html: true,
     linkify: true,
@@ -111,10 +110,12 @@
     }
   }).use(require('markdown-it-mark'))
     .use(require('markdown-it-ins'))
+
   var menuConfig = {
     editor: ['暂无'],
     fileTree: ['新建目录', '新建文件', '删除文件']
   }
+  var Render = require("../TextParser");
   export default {
     name: 'home',
     data () {
@@ -168,12 +169,18 @@
       // })
     },
     methods: {
-      tr (e) {      
-        console.log(e.target.innerHTML)
-        // innerHTML("<span style='color:red'>这里是红色</span>")
-        if(e.data){
-          this.inputValue += e.data;
-          this.result = md.render(this.inputValue);
+      tr (e) {
+        console.log(e)
+        this.result = md.render(e.target.innerText);      
+        if(Render.match(e.target.innerText)){
+          let length = e.target.children.length;
+          if(length==0){
+            e.target.style.color='red';
+          }else{
+            console.log(e.target.children[length-1])
+            e.target.children[length-1].style.color ='red';
+          }
+          
         }
       },
       /**
