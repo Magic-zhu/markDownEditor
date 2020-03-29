@@ -1,0 +1,110 @@
+.wrapper {
+    display: flex;
+}
+
+.filetree {
+    width: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid #eeeeee;
+    border-bottom: #eeeeee 1px solid;
+    height: 752px;
+    overflow-y: scroll;
+}
+
+.home {
+    flex: 1;
+    height: 100%;
+    box-sizing: border-box;
+    border-bottom: #eeeeee 1px solid;
+    .tool_bar {
+        width: 100%;
+        display: flex;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .content {
+        width: 100%;
+        height: 700px;
+        display: flex;
+        border-top: 1px solid #eeeeee;
+        box-sizing: border-box;
+    }
+    .left_side {
+        flex: 1;
+        height: 100%;
+        border-right: 1px solid #eeeeee;
+        box-sizing: border-box;
+        padding: 10px;
+        position: relative;
+        .input_box_item {
+            display:flex;
+            align-items: center;
+            width: 100%;
+            height:20px;
+            .line_number{
+                width: 40px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+            }
+            .input_item{
+                flex: 1;
+                display: flex;
+                align-items: center;
+                outline: none;
+            }
+        }
+    }
+    .right_side {
+        flex: 1;
+        height: 100%;
+        font-size: 16px;
+        overflow-y: auto;
+        box-sizing: border-box;
+        padding: 10px;
+        // list-style-position: inside;
+    }
+
+    .inputArea {
+        border: none;
+        outline: none;
+        width: 100%;
+        height: 100%;
+        resize: none;
+        font-size: 16px;
+    }
+}
+
+.contextMenu {
+    position: fixed;
+    width: 200px;
+    height: auto;
+    background-color: lightgrey;
+    color: black;
+    box-shadow: #eeeeee 1px 2px 4px 2px;
+    cursor: default;
+    div {
+        padding: 5px;
+    }
+    div:hover {
+        background-color: blue;
+        color: white;
+    }
+    border: 1px solid #cccccc;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+#editor {
+    padding: 0;
+    margin: 0;
+}

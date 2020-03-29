@@ -75,15 +75,20 @@
             </div>
             <div class="content" :style="content_style">
                 <div class="left_side" v-if="view!=2">
-                    <div contenteditable="true" class="inputArea" @input="tr($event)"></div>
+                  <div class="input_box_item" v-for="(item,index) in inputList" :key="'inputitem'+index">
+                    <div class="line_number">{{index}}</div>
+                    <div class="input_item" contenteditable='true'  @input="tr(index,$event)"></div>
+                  </div>
+                    
+                    <!-- <div contenteditable="true" class="inputArea" @input="tr($event)"></div> -->
                 </div>
-                <div v-html="result" class="right_side" v-if="view==1||view==2" :style="right_side_style"></div>
+                <div  class="right_side" v-html='result' v-if="view==1||view==2" :style="right_side_style">
+                </div>
             </div>
         </div>
         <!--右键菜单-->
         <div class="contextMenu" v-if="ifShowMenu" :style="menuPosition">
-            <div v-for="(item,index) in contextMenuList" :key="index" @click="handleContextMenuClick(item)">{{item
-                }}</div>
+            <div v-for="(item,index) in contextMenuList" :key="index" @click="handleContextMenuClick(item)">{{item}}</div>
         </div>
     </div>
 </template>
@@ -91,8 +96,6 @@
 <script>
 
   import hljs from 'highlight.js'
-  import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
-  import 'monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution'
   var md = require('markdown-it')({
     html: true,
     linkify: true,
@@ -108,14 +111,17 @@
         } catch (__) {}
       }
     }
-  }).use(require('markdown-it-mark'))
-    .use(require('markdown-it-ins'))
+  })
+  .use(require('markdown-it-mark'))
+  .use(require('markdown-it-ins'))
 
   var menuConfig = {
     editor: ['暂无'],
     fileTree: ['新建目录', '新建文件', '删除文件']
   }
   var Render = require("../TextParser");
+  var inputList = ["","","",""];
+  var resultList=["","","",""],
   export default {
     name: 'home',
     data () {
@@ -129,8 +135,10 @@
         content_style: '',
         right_side_style: '',
         menuPosition: '',
+        contextMenuList: [], //当前显示的菜单
+        // 💎 页面状态
         ifShowMenu: false, //是否显示右键菜单
-        contextMenuList: [] //当前显示的菜单
+        // 📕 页面数据
       }
     },
     created () {
@@ -169,19 +177,19 @@
       // })
     },
     methods: {
-      tr (e) {
-        console.log(e)
-        this.result = md.render(e.target.innerText);      
-        if(Render.match(e.target.innerText)){
-          let length = e.target.children.length;
-          if(length==0){
-            e.target.style.color='red';
-          }else{
-            console.log(e.target.children[length-1])
-            e.target.children[length-1].style.color ='red';
-          }
-          
-        }
+      tr (index,e) {
+        inputList[index] = e.target.innerText;
+        resultList[index] = md.render(e.target.innerText);
+        let temp = resultList.fotr
+        // if(Render.match(e.target.innerText)){
+        //   let length = e.target.children.length;
+        //   if(length==0){
+        //     e.target.style.color='red';
+        //   }else{
+        //     console.log(e.target.children[length-1])
+        //     e.target.children[length-1].style.color ='red';
+        //   }  
+        // }
       },
       /**
        * 功能按键
@@ -340,95 +348,6 @@
   }
 </script>
 <style lang="less" scoped>
-    .wrapper {
-        display: flex;
-    }
-
-    .filetree {
-        width: 300px;
-        padding: 20px;
-        box-sizing: border-box;
-        border-right: 1px solid #eeeeee;
-        border-bottom: #eeeeee 1px solid;
-        height: 752px;
-        overflow-y: scroll;
-    }
-
-    .home {
-        flex: 1;
-        height: 100%;
-        box-sizing: border-box;
-        border-bottom: #eeeeee 1px solid;
-        .tool_bar {
-            width: 100%;
-            display: flex;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .content {
-            width: 100%;
-            height: 700px;
-            display: flex;
-            border-top: 1px solid #eeeeee;
-            box-sizing: border-box;
-        }
-        .left_side {
-            flex: 1;
-            height: 100%;
-            border-right: 1px solid #eeeeee;
-            box-sizing: border-box;
-            padding: 10px;
-            position: relative;
-        }
-        .right_side {
-            flex: 1;
-            height: 100%;
-            font-size: 16px;
-            overflow-y: auto;
-            box-sizing: border-box;
-            padding: 10px;
-            list-style-position: inside;
-        }
-
-        .inputArea {
-            border: none;
-            outline: none;
-            width: 100%;
-            height: 100%;
-            resize: none;
-            font-size: 16px;
-        }
-    }
-
-    .contextMenu {
-        position: fixed;
-        width: 200px;
-        height: auto;
-        background-color: lightgrey;
-        color: black;
-        box-shadow: #eeeeee 1px 2px 4px 2px;
-        cursor: default;
-        div {
-            padding: 5px;
-        }
-        div:hover {
-            background-color: blue;
-            color: white;
-        }
-        border: 1px solid #cccccc;
-    }
-
-    .ml10 {
-        margin-left: 10px;
-    }
-
-    .mr10 {
-        margin-right: 10px;
-    }
-
-    #editor {
-        padding: 0;
-        margin: 0;
-    }
+@import url('./home.less');
 </style>
 
