@@ -7,13 +7,7 @@
             <div class="tool_bar">
                 <div class="mr10">
                     <el-button-group>
-                        <el-button type="default" size="small" @click="funcBtn('h1')">h1</el-button>
-                        <el-button type="default" size="small" @click="funcBtn('h2')">h2</el-button>
-                        <el-button type="default" size="small" @click="funcBtn('h3')">h3</el-button>
-                        <el-button type="default" size="small" @click="funcBtn('h4')">h4</el-button>
-                        <el-button type="default" size="small" @click="funcBtn('h5')">h5</el-button>
-                        <el-button type="default" size="small" @click="funcBtn('h6')">h6</el-button>
-                        <el-button type="default" size="small" @click="funcBtn('br')">/br</el-button>
+                        <el-button  v-for='item in funcMap_title' :key='item' type="default" size="small" @click="funcBtn(item)">{{item}}</el-button>
                     </el-button-group>
                 </div>
                 <div class="mr10">
@@ -76,8 +70,8 @@
             <div class="content" :style="content_style">
                 <div class="left_side" v-if="view!=2">
                   <div class="input_box_item" v-for="(item,index) in inputList" :key="'inputitem'+index">
-                    <div class="line_number">{{index}}</div>
-                    <div class="input_item" contenteditable='true'  @input="tr(index,$event)"></div>
+                    <div class="line_number">{{index+1}}</div>
+                    <div class="input_item" contenteditable='true'  @input="tr(index,$event)" @focus="inputFocus(index)" :style="{'background-color':(nowFocus==index?'#eeeeee':'')}"></div>
                   </div>
                     
                     <!-- <div contenteditable="true" class="inputArea" @input="tr($event)"></div> -->
@@ -120,12 +114,11 @@
     fileTree: ['新建目录', '新建文件', '删除文件']
   }
   var Render = require("../TextParser");
-  var inputList = ["","","",""];
-  var resultList=["","","",""],
   export default {
     name: 'home',
     data () {
       return {
+        funcMap_title:['h1','h2','h3','h4','h5','h6'],
         result: '',
         inputValue: '',
         outValue: '',
@@ -138,7 +131,9 @@
         contextMenuList: [], //当前显示的菜单
         // 💎 页面状态
         ifShowMenu: false, //是否显示右键菜单
+        nowFocus:null,
         // 📕 页面数据
+        inputList:[""],
       }
     },
     created () {
@@ -178,18 +173,26 @@
     },
     methods: {
       tr (index,e) {
-        inputList[index] = e.target.innerText;
-        resultList[index] = md.render(e.target.innerText);
-        let temp = resultList.fotr
-        // if(Render.match(e.target.innerText)){
-        //   let length = e.target.children.length;
-        //   if(length==0){
-        //     e.target.style.color='red';
-        //   }else{
-        //     console.log(e.target.children[length-1])
-        //     e.target.children[length-1].style.color ='red';
-        //   }  
-        // }
+        this.inputList[index] = e.target.innerText;
+        let temp = '';
+        this.inputList.forEach(item=>{
+          temp = temp +'\r' + item;
+        })
+        this.result = md.render(temp);
+        let matchType = Render.match(e.target.innerText);
+        console.log(matchType)
+        if(matchType){
+          switch(matchType){
+            case 'title':
+              e.target.style.color='red';
+              break;
+            case 'list':
+              e.target.style.color='blue';
+              break;  
+          }          
+        }else{
+          e.target.style.color='black';  
+        }
       },
       /**
        * 功能按键
@@ -213,9 +216,6 @@
             break
           case 'h6':
             this.insertText('######')
-            break
-          case 'br':
-            this.insertText('</br>')
             break
           case 'bold':
             this.replaceSelectedWords('**')
@@ -277,8 +277,9 @@
       listenKeyDown () {
         document.addEventListener('keypress', e => {
           //换行
-          if (e.ctrlKey && e.key == 'Enter') {
-            this.funcBtn('br')
+          if (e.key == 'Enter') {
+            let next = document.getElementsByClassName('input_item')[this.nowFocus+1];
+            next.focus();
             return false
           }
           //加粗
@@ -344,6 +345,13 @@
       handleContextMenuClick (item) {
 
       },
+      //输入区域获取焦点
+      inputFocus(index){
+        this.nowFocus = index;
+        if(index>=this.inputList.length-2){
+          this.inputList.push('');
+        }      
+      }
     }
   }
 </script>
