@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ecfbf5da-21ef-406e-a070-224dc0ae62a0" name="默认更改列表" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/markDownEditor.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/mac/app.icns" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/1024.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/256.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/48.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/png/64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app-icon/win/app.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/code-blocks.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/about.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/demo.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceCodePro-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-Black.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-BlackIt.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-Bold.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-BoldIt.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-ExtraLight.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-ExtraLightIt.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-It.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-Light.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-LightIt.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-Regular.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-Semibold.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/fonts/SourceSansPro-SemiboldIt.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/github.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/global.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/nativize.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/nav.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/print.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/section.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/variables.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/demo-btns.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/ex-links.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/about.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/about@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/diagram.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/icons.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/loading.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/programming.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/ui-terminology.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/imports.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mac/child.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mac/info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/mac/parent.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/normalize-shortcuts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/tiles/SampleAppx.150x150.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/tiles/SampleAppx.310x150.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/tiles/SampleAppx.44x44.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/tiles/SampleAppx.50x50.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/body/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/body/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/body/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/body/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/body/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/body/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/body/js/app.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/body/js/app.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/body/js/chunk-vendors.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/body/js/chunk-vendors.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/view/src/views/Home.vue" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/view/src/views/Home.vue" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/view/src/views/Home.vue" />
+        <option value="$PROJECT_DIR$/package.json" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="2560" />
+    <option name="height" value="1440" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="markDownEditor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="markDownEditor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="markDownEditor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="markDownEditor" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="markDownEditor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="markDownEditor" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="markDownEditor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="markDownEditor" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="Editor-darwin-x64" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="standardjs.codestyle.accepted" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ecfbf5da-21ef-406e-a070-224dc0ae62a0" name="默认更改列表" comment="" />
+      <created>1585749601155</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585749601155</updated>
+      <workItem from="1585749605490" duration="2381000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2381000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="2560" height="1440" extended-state="0" />
+    <layout>
+      <window_info id="npm" side_tool="true" />
+      <window_info id="Gulp" side_tool="true" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18690851" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.24041298" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="调试" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/assets/img/about.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/tiles/SampleAppx.44x44.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="777">
+          <caret line="49" selection-start-line="49" selection-end-line="49" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/src/views/Home.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="135" column="52" selection-start-line="135" selection-start-column="52" selection-end-line="135" selection-end-column="52" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -7,7 +7,9 @@
             <div class="tool_bar">
                 <div class="mr10">
                     <el-button-group>
-                        <el-button  v-for='item in funcMap_title' :key='item' type="default" size="small" @click="funcBtn(item)">{{item}}</el-button>
+                        <el-button v-for='item in funcMap_title' :key='item' type="default" size="small"
+                                   @click="funcBtn(item)">{{item}}
+                        </el-button>
                     </el-button-group>
                 </div>
                 <div class="mr10">
@@ -58,310 +60,268 @@
             </div>
             <div class="content" :style="content_style">
                 <div class="left_side" v-if="view!=2">
-                  <div class="input_box_item" v-for="(item,index) in inputList" :key="'inputitem'+index">
-                    <div class="line_number">{{index+1}}</div>
-                    <div class="input_item" contenteditable='true'  @input="tr(index,$event)" @focus="inputFocus(index)" :style="{'background-color':(nowFocus==index?'#eeeeee':'')}"></div>
-                  </div>
-                    <!--<textarea class="inputArea" @input="tr($event)"/>-->
+                    <textarea class="inputArea" @input="tr($event)"/>
                 </div>
-                <div  class="right_side" v-html='result' v-if="view==1||view==2" :style="right_side_style">
+                <div class="right_side" v-html='result' v-if="view==1||view==2" :style="right_side_style">
                 </div>
             </div>
         </div>
         <!--右键菜单-->
         <div class="contextMenu" v-if="ifShowMenu" :style="menuPosition">
-            <div v-for="(item,index) in contextMenuList" :key="index" @click="handleContextMenuClick(item)">{{item}}</div>
+            <div v-for="(item,index) in contextMenuList" :key="index" @click="handleContextMenuClick(item)">{{item}}
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 
-  import hljs from 'highlight.js'
-  var md = require('markdown-it')({
-    html: true,
-    linkify: true,
-    typographer: true,
-    highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return (
-            '<pre class="hljs"><code>' +
-            hljs.highlight(lang, str, true).value +
-            '</code></pre>'
-          )
-        } catch (__) {}
-      }
+    import hljs from 'highlight.js'
+
+    var md = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true,
+        highlight: function (str, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+                try {
+                    return (
+                        '<pre class="hljs"><code>' +
+                        hljs.highlight(lang, str, true).value +
+                        '</code></pre>'
+                    )
+                } catch (__) {
+                }
+            }
+        }
+    })
+        .use(require('markdown-it-mark'))
+        .use(require('markdown-it-ins'))
+
+    var menuConfig = {
+        editor: ['删除该行'],
+        fileTree: ['新建目录', '新建文件', '删除文件']
     }
-  })
-  .use(require('markdown-it-mark'))
-  .use(require('markdown-it-ins'))
+    var Render = require("../TextParser");
+    export default {
+        name: 'home',
+        data() {
+            return {
+                funcMap_title: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6','br'],
+                funcMap_group2: ['bold', 'italic', 'strikethrough', 'underline', 'list-ul'],
+                funcMap_group3: [],
+                result: '',
+                inputValue: '',
+                outValue: '',
+                view: 1,
+                filetree: [], //文件树列表
+                nowPath: '',
+                content_style: '',
+                right_side_style: '',
+                menuPosition: '',
+                contextMenuList: [], //当前显示的菜单
+                // 💎 页面状态
+                ifShowMenu: false, //是否显示右键菜单
+                nowFocus: null,
+                // 📕 页面数据
+                inputList: [""],
+            }
+        },
+        created() {
+            this.listenKeyDown()
+            document.oncontextmenu = e => {
+                let x = e.clientX
+                let y = e.clientY
+                this.menuPosition = ` left:${x}px;top:${y}px`
+                if (e.target.className == 'inputArea')
+                    this.contextMenuList = menuConfig.editor
+                if (e.target.className == 'filetree')
+                    this.contextMenuList = menuConfig.fileTree
+                this.ifShowMenu = true
+                if (e.target.className == 'right_side') this.ifShowMenu = false
+                return false
+            }
+        },
+        mounted() {
+            //监听主进程的消息
+            // ipcRenderer.on("filedata", (event, arg) => {
+            //     this.inputValue = arg.data;
+            //     this.nowPath = arg.path;
+            //     this.result = md.render(this.inputValue);
+            // });
+            // ipcRenderer.on("filetree", (event, arg) => {
+            //     this.filetree = arg;
+            // });
+            // ipcRenderer.on("saveSuccess", (e, back) => {
+            //     this.$message.success("保存成功");
+            // });
+            // ipcRenderer.on("createSuccess",(e, back)=>{
+            //     this.$message.success("新建成功");
+            // });
+            // ipcRenderer.on("deleteSuccess",(e, back)=>{
+            //     this.$message.success("删除成功");
+            // })
+        },
+        methods: {
+            tr(e){
+               this.result = md.render(e.target.value)
+            },
+            /**
+             * 功能按键
+             */
+            funcBtn(type) {
+                switch (type) {
+                    case 'h1':
+                        this.insertText('#')
+                        break
+                    case 'h2':
+                        this.insertText('##')
+                        break
+                    case 'h3':
+                        this.insertText('###')
+                        break
+                    case 'h4':
+                        this.insertText('####')
+                        break
+                    case 'h5':
+                        this.insertText('#####')
+                        break
+                    case 'h6':
+                        this.insertText('######')
+                        break
+                    case 'br':
+                        this.insertText('<br>')
+                        break
+                    case 'bold':
+                        this.replaceSelectedWords('**')
+                        break
+                    case 'italic':
+                        this.replaceSelectedWords('*')
+                        break
+                    case 'strikethrough':
+                        this.replaceSelectedWords('~~')
+                        break
+                    case 'underline':
+                        this.replaceSelectedWords('++')
+                        break
+                    case 'marked':
+                        this.replaceSelectedWords('==')
+                        break
+                    case 'list-ul':
+                        this.insertText('- ')
+                        break
+                    case 'red':
+                        this.replaceSelectedWords('<span style=\'color: red\'>', '</span>')
+                        break
+                    case 'link':
+                        this.replaceSelectedWords('[', '](https://)')
+                        break
+                    case 'view':
+                        this.view = this.view == 1 ? 0 : 1
+                        break
+                    case 'eye':
+                        this.view = this.view == 2 ? 1 : 2
+                        break
+                    case 'clear':
+                        this.inputValue = ''
+                        this.tr()
+                        break
+                    case 'save':
+                        ipcRenderer.send('saveFile', {
+                            fileContent: this.inputValue,
+                            path: this.nowPath
+                        })
+                        break
+                }
+            },
+            /**
+             * 替换成markdown语法
+             * @param a
+             */
+            replaceSelectedWords(a, b) {
+                let selectString = window.getSelection().toString()
+                if (!b) {
+                    document.execCommand('insertText', false, a + selectString + a)
+                } else {
+                    document.execCommand('insertText', false, a + selectString + b)
+                }
+            },
+            /**
+             * 监听按键
+             */
+            listenKeyDown() {
+                document.addEventListener('keypress', e => {
+                    if(e.ctrlKey && e.key=='enter'){
+                        this.replaceSelectedWords('**')
+                        return false
+                    }
+                    //加粗
+                    if (e.ctrlKey && e.key == 'b') {
+                        this.replaceSelectedWords('**')
+                        return false
+                    }
+                    //下划线
+                    if (e.ctrlKey && e.key == 'u') {
+                        this.replaceSelectedWords('++')
+                        return false
+                    }
+                    //倾斜
+                    if (e.ctrlKey && e.key == 'i') {
+                        this.funcBtn('italic')
+                        return false
+                    }
+                    //保存文件
+                    if (e.ctrlKey && e.key == 's') {
+                        this.funcBtn('save')
+                        return false
+                    }
+                    //H1-H6标题
+                    if (e.ctrlKey && e.key == '1') {
+                        this.funcBtn('h1')
+                        return false
+                    }
+                    if (e.ctrlKey && e.key == '2') {
+                        this.funcBtn('h2')
+                        return false
+                    }
+                    if (e.ctrlKey && e.key == '3') {
+                        this.funcBtn('h3')
+                        return false
+                    }
+                    if (e.ctrlKey && e.key == '4') {
+                        this.funcBtn('h4')
+                        return false
+                    }
+                    if (e.ctrlKey && e.key == '5') {
+                        this.funcBtn('h5')
+                        return false
+                    }
+                    if (e.ctrlKey && e.key == '6') {
+                        this.funcBtn('h6')
+                        return false
+                    }
+                    if (e.ctrlKey && e.key == ']') {
+                        this.funcBtn('view')
+                        return false
+                    }
+                })
+            },
+            handleNodeClick(obj, b, c) {
+                if (obj.isDir == false) {
+                    ipcRenderer.send('getFileData', obj.filepath)
+                }
+            },
+            insertText(text) {
+                document.execCommand('insertText', false, text)
+            },
+            //处理右键菜单的点击事件
+            handleContextMenuClick(item) {
 
-  var menuConfig = {
-    editor: ['删除该行'],
-    fileTree: ['新建目录', '新建文件', '删除文件']
-  }
-  var Render = require("../TextParser");
-  export default {
-    name: 'home',
-    data () {
-      return {
-        funcMap_title:['h1','h2','h3','h4','h5','h6'],
-        funcMap_group2:['bold','italic','strikethrough','underline','list-ul'],
-        funcMap_group3:[
-
-        ],
-        result: '',
-        inputValue: '',
-        outValue: '',
-        view: 1,
-        filetree: [], //文件树列表
-        nowPath: '',
-        content_style: '',
-        right_side_style: '',
-        menuPosition: '',
-        contextMenuList: [], //当前显示的菜单
-        // 💎 页面状态
-        ifShowMenu: false, //是否显示右键菜单
-        nowFocus:null,
-        // 📕 页面数据
-        inputList:[""],
-      }
-    },
-    created () {
-      this.listenKeyDown()
-      document.oncontextmenu = e => {
-        let x = e.clientX
-        let y = e.clientY
-        this.menuPosition = ` left:${x}px;top:${y}px`
-        if (e.target.className == 'input_item')
-          this.contextMenuList = menuConfig.editor
-        if (e.target.className == 'filetree')
-          this.contextMenuList = menuConfig.fileTree
-        this.ifShowMenu = true
-        if (e.target.className == 'right_side') this.ifShowMenu = false
-        return false
-      }
-    },
-    mounted () {
-      //监听主进程的消息
-      // ipcRenderer.on("filedata", (event, arg) => {
-      //     this.inputValue = arg.data;
-      //     this.nowPath = arg.path;
-      //     this.result = md.render(this.inputValue);
-      // });
-      // ipcRenderer.on("filetree", (event, arg) => {
-      //     this.filetree = arg;
-      // });
-      // ipcRenderer.on("saveSuccess", (e, back) => {
-      //     this.$message.success("保存成功");
-      // });
-      // ipcRenderer.on("createSuccess",(e, back)=>{
-      //     this.$message.success("新建成功");
-      // });
-      // ipcRenderer.on("deleteSuccess",(e, back)=>{
-      //     this.$message.success("删除成功");
-      // })
-    },
-    destroyed (){
-      document.removeEventListener('keypress')
-    },
-    methods: {
-      tr (index,e) {
-        //如果删除到无 则跳转到上一行的行尾
-        if(e.inputType =='deleteContentBackward'&&e.target.innerText==''&&index!=0){
-          let pre = document.getElementsByClassName('input_item')[index-1];
-          pre.focus();
-
-          return
+            },
         }
-        this.inputList[index] = e.target.innerText;
-        let temp = '';
-        this.inputList.forEach(item=>{
-          temp = temp +'\r' + item;
-        })
-        this.result = md.render(temp);
-        //改变特殊标记的样式
-        let matchType = Render.match(e.target.innerText);
-        if(matchType){
-          switch(matchType){
-            case 'title':
-              e.target.style.color='orange';
-              e.target.style.fontWeight ='bold';
-              break;
-            case 'list':
-              e.target.style.color='blue';
-              break;
-          }
-        }else{
-          e.target.style='';
-        }
-      },
-      // tr(e){
-      //    this.result = md.render(e.target.value)
-      // },
-      /**
-       * 功能按键
-       */
-      funcBtn (type) {
-        switch (type) {
-          case 'h1':
-            this.insertText('#')
-            break
-          case 'h2':
-            this.insertText('##')
-            break
-          case 'h3':
-            this.insertText('###')
-            break
-          case 'h4':
-            this.insertText('####')
-            break
-          case 'h5':
-            this.insertText('#####')
-            break
-          case 'h6':
-            this.insertText('######')
-            break
-          case 'bold':
-            this.replaceSelectedWords('**')
-            break
-          case 'italic':
-            this.replaceSelectedWords('*')
-            break
-          case 'strikethrough':
-            this.replaceSelectedWords('~~')
-            break
-          case 'underline':
-            this.replaceSelectedWords('++')
-            break
-          case 'marked':
-            this.replaceSelectedWords('==')
-            break
-          case 'list-ul':
-            this.insertText('- ')
-            break
-          case 'red':
-            this.replaceSelectedWords('<span style=\'color: red\'>', '</span>')
-            break
-          case 'link':
-            this.replaceSelectedWords('[', '](https://)')
-            break
-          case 'view':
-            this.view = this.view == 1 ? 0 : 1
-            break
-          case 'eye':
-            this.view = this.view == 2 ? 1 : 2
-            break
-          case 'clear':
-            this.inputValue = ''
-            this.tr()
-            break
-          case 'save':
-            ipcRenderer.send('saveFile', {
-              fileContent: this.inputValue,
-              path: this.nowPath
-            })
-            break
-        }
-      },
-      /**
-       * 替换成markdown语法
-       * @param a
-       */
-      replaceSelectedWords (a, b) {
-        let selectString = window.getSelection().toString()
-        if (!b) {
-          document.execCommand('insertText', false, a + selectString + a)
-        } else {
-          document.execCommand('insertText', false, a + selectString + b)
-        }
-      },
-      /**
-       * 监听按键
-       */
-      listenKeyDown () {
-        document.addEventListener('keypress', e => {
-          //换行
-          if (e.key == 'Enter') {
-            let next = document.getElementsByClassName('input_item')[this.nowFocus+1];
-            next.focus();
-            return false
-          }
-          //加粗
-          if (e.ctrlKey && e.key == 'b') {
-            this.replaceSelectedWords('**')
-            return false
-          }
-          //下划线
-          if (e.ctrlKey && e.key == 'u') {
-            this.replaceSelectedWords('++')
-            return false
-          }
-          //倾斜
-          if (e.ctrlKey && e.key == 'i') {
-            this.funcBtn('italic')
-            return false
-          }
-          //保存文件
-          if (e.ctrlKey && e.key == 's') {
-            this.funcBtn('save')
-            return false
-          }
-          //H1-H6标题
-          if (e.ctrlKey && e.key == '1') {
-            this.funcBtn('h1')
-            return false
-          }
-          if (e.ctrlKey && e.key == '2') {
-            this.funcBtn('h2')
-            return false
-          }
-          if (e.ctrlKey && e.key == '3') {
-            this.funcBtn('h3')
-            return false
-          }
-          if (e.ctrlKey && e.key == '4') {
-            this.funcBtn('h4')
-            return false
-          }
-          if (e.ctrlKey && e.key == '5') {
-            this.funcBtn('h5')
-            return false
-          }
-          if (e.ctrlKey && e.key == '6') {
-            this.funcBtn('h6')
-            return false
-          }
-          if (e.ctrlKey && e.key == ']') {
-            this.funcBtn('view')
-            return false
-          }
-        })
-      },
-      handleNodeClick (obj, b, c) {
-        if (obj.isDir == false) {
-          ipcRenderer.send('getFileData', obj.filepath)
-        }
-      },
-      insertText (text) {
-        document.execCommand('insertText', false, text)
-      },
-      //处理右键菜单的点击事件
-      handleContextMenuClick (item) {
-
-      },
-      //输入区域获取焦点
-      inputFocus(index){
-        this.nowFocus = index;
-        if(index>=this.inputList.length-2){
-          this.inputList.push('');
-        }      
-      }
     }
-  }
 </script>
 <style lang="less" scoped>
-@import url('./home.less');
+    @import url('./home.less');
 </style>
 
