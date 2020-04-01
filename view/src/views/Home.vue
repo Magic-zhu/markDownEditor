@@ -12,20 +12,9 @@
                 </div>
                 <div class="mr10">
                     <el-button-group>
-                        <el-button type="default" size="small" @click="funcBtn('bold')">
-                            <i class="fa fa-bold"></i>
-                        </el-button>
-                        <el-button type="default" size="small" @click="funcBtn('italic')">
-                            <i class="fa fa-italic"></i>
-                        </el-button>
-                        <el-button type="default" size="small" @click="funcBtn('strikethrough')">
-                            <i class="fa fa-strikethrough"></i>
-                        </el-button>
-                        <el-button type="default" size="small" @click="funcBtn('underline')">
-                            <i class="fa fa-underline"></i>
-                        </el-button>
-                        <el-button type="default" size="small" @click="funcBtn('list-ul')">
-                            <i class="fa fa-list-ul"></i>
+                        <el-button v-for='item in funcMap_group2' :key='item' type="default" size="small"
+                                   @click="funcBtn(item)">
+                            <i :class="'fa fa-' + item"></i>
                         </el-button>
                     </el-button-group>
                 </div>
@@ -73,8 +62,7 @@
                     <div class="line_number">{{index+1}}</div>
                     <div class="input_item" contenteditable='true'  @input="tr(index,$event)" @focus="inputFocus(index)" :style="{'background-color':(nowFocus==index?'#eeeeee':'')}"></div>
                   </div>
-                    
-                    <!-- <div contenteditable="true" class="inputArea" @input="tr($event)"></div> -->
+                    <!--<textarea class="inputArea" @input="tr($event)"/>-->
                 </div>
                 <div  class="right_side" v-html='result' v-if="view==1||view==2" :style="right_side_style">
                 </div>
@@ -110,7 +98,7 @@
   .use(require('markdown-it-ins'))
 
   var menuConfig = {
-    editor: ['暂无'],
+    editor: ['删除该行'],
     fileTree: ['新建目录', '新建文件', '删除文件']
   }
   var Render = require("../TextParser");
@@ -119,6 +107,10 @@
     data () {
       return {
         funcMap_title:['h1','h2','h3','h4','h5','h6'],
+        funcMap_group2:['bold','italic','strikethrough','underline','list-ul'],
+        funcMap_group3:[
+
+        ],
         result: '',
         inputValue: '',
         outValue: '',
@@ -142,7 +134,7 @@
         let x = e.clientX
         let y = e.clientY
         this.menuPosition = ` left:${x}px;top:${y}px`
-        if (e.target.className == 'inputArea')
+        if (e.target.className == 'input_item')
           this.contextMenuList = menuConfig.editor
         if (e.target.className == 'filetree')
           this.contextMenuList = menuConfig.fileTree
@@ -171,29 +163,43 @@
       //     this.$message.success("删除成功");
       // })
     },
+    destroyed (){
+      document.removeEventListener('keypress')
+    },
     methods: {
       tr (index,e) {
+        //如果删除到无 则跳转到上一行的行尾
+        if(e.inputType =='deleteContentBackward'&&e.target.innerText==''&&index!=0){
+          let pre = document.getElementsByClassName('input_item')[index-1];
+          pre.focus();
+
+          return
+        }
         this.inputList[index] = e.target.innerText;
         let temp = '';
         this.inputList.forEach(item=>{
           temp = temp +'\r' + item;
         })
         this.result = md.render(temp);
+        //改变特殊标记的样式
         let matchType = Render.match(e.target.innerText);
-        console.log(matchType)
         if(matchType){
           switch(matchType){
             case 'title':
-              e.target.style.color='red';
+              e.target.style.color='orange';
+              e.target.style.fontWeight ='bold';
               break;
             case 'list':
               e.target.style.color='blue';
-              break;  
-          }          
+              break;
+          }
         }else{
-          e.target.style.color='black';  
+          e.target.style='';
         }
       },
+      // tr(e){
+      //    this.result = md.render(e.target.value)
+      // },
       /**
        * 功能按键
        */
