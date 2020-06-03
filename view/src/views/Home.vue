@@ -58,10 +58,11 @@
             </div>
             <div class="content" :style="content_style">
                 <div class="left_side" v-if="view!=2">
-                  <div class="input_box_item" v-for="(item,index) in inputList" :key="'inputitem'+index">
+                  <div id='editor' style="height:100%"></div>
+                  <!-- <div class="input_box_item" v-for="(item,index) in inputList" :key="'inputitem'+index">
                     <div class="line_number">{{index+1}}</div>
                     <div class="input_item" contenteditable='true'  @input="tr(index,$event)" @focus="inputFocus(index)" :style="{'background-color':(nowFocus==index?'#eeeeee':'')}"></div>
-                  </div>
+                  </div> -->
                     <!--<textarea class="inputArea" @input="tr($event)"/>-->
                 </div>
                 <div  class="right_side" v-html='result' v-if="view==1||view==2" :style="right_side_style">
@@ -76,7 +77,7 @@
 </template>
 
 <script>
-
+  import * as monaco from 'monaco-editor';
   import hljs from 'highlight.js'
   var md = require('markdown-it')({
     html: true,
@@ -102,6 +103,7 @@
     fileTree: ['新建目录', '新建文件', '删除文件']
   }
   var Render = require("../TextParser");
+
   export default {
     name: 'home',
     data () {
@@ -144,6 +146,12 @@
       }
     },
     mounted () {
+      let editor = document.getElementById('editor');
+        monaco.editor.create(editor, {
+        value: "",
+        language: "markdown",
+        theme:'vs-dark'
+});
       //监听主进程的消息
       // ipcRenderer.on("filedata", (event, arg) => {
       //     this.inputValue = arg.data;
