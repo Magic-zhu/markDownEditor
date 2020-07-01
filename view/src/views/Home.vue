@@ -144,18 +144,6 @@ export default {
   },
   created() {
     this.listenKeyDown();
-    // document.oncontextmenu = e => {
-    //   let x = e.clientX
-    //   let y = e.clientY
-    //   this.menuPosition = ` left:${x}px;top:${y}px`
-    //   if (e.target.className == 'input_item')
-    //     this.contextMenuList = menuConfig.editor
-    //   if (e.target.className == 'filetree')
-    //     this.contextMenuList = menuConfig.fileTree
-    //   this.ifShowMenu = true
-    //   if (e.target.className == 'right_side') this.ifShowMenu = false
-    //   return false
-    // }
   },
   mounted() {
     Editor = monaco.editor.create(document.getElementById("editor"), {
@@ -194,66 +182,81 @@ export default {
      * 功能按键
      */
     funcBtn(type) {
-      switch (type) {
-        case "h1":
-          this.insertText("#");
-          break;
-        case "h2":
-          this.insertText("##");
-          break;
-        case "h3":
-          this.insertText("###");
-          break;
-        case "h4":
-          this.insertText("####");
-          break;
-        case "h5":
-          this.insertText("#####");
-          break;
-        case "h6":
-          this.insertText("######");
-          break;
-        case "bold":
-          this.replaceSelectedWords("**");
-          break;
-        case "italic":
-          this.replaceSelectedWords("*");
-          break;
-        case "strikethrough":
-          this.replaceSelectedWords("~~");
-          break;
-        case "underline":
-          this.replaceSelectedWords("++");
-          break;
-        case "marked":
-          this.replaceSelectedWords("==");
-          break;
-        case "list-ul":
-          this.insertText("- ");
-          break;
-        case "red":
-          this.replaceSelectedWords("<span style='color: red'>", "</span>");
-          break;
-        case "link":
-          this.replaceSelectedWords("[", "](https://)");
-          break;
-        case "view":
-          this.view = this.view == 1 ? 0 : 1;
-          break;
-        case "eye":
-          this.view = this.view == 2 ? 1 : 2;
-          break;
-        case "clear":
-          this.inputValue = "";
-          this.tr();
-          break;
-        case "save":
-          ipcRenderer.send("saveFile", {
-            fileContent: this.inputValue,
-            path: this.nowPath
-          });
-          break;
+      let selection = Editor.getSelection();
+
+    let a  = new monaco.Range(selection.endLineNumber, selection.endColumn, selection.endLineNumber, selection.endColumn);
+    let b  =  new monaco.Range(selection.startLineNumber, selection.startColumn, selection.startLineNumber, selection.startColumn);
+    console.log(a)
+    Editor.executeEdits('',[
+      {
+        range:a,
+        text:'*'
+      },
+      {
+        range:b,
+        text:'*'
       }
+    ])
+      // switch (type) {
+      //   case "h1":
+      //     this.insertText("#");
+      //     break;
+      //   case "h2":
+      //     this.insertText("##");
+      //     break;
+      //   case "h3":
+      //     this.insertText("###");
+      //     break;
+      //   case "h4":
+      //     this.insertText("####");
+      //     break;
+      //   case "h5":
+      //     this.insertText("#####");
+      //     break;
+      //   case "h6":
+      //     this.insertText("######");
+      //     break;
+      //   case "bold":
+      //     this.replaceSelectedWords("**");
+      //     break;
+      //   case "italic":
+      //     this.replaceSelectedWords("*");
+      //     break;
+      //   case "strikethrough":
+      //     this.replaceSelectedWords("~~");
+      //     break;
+      //   case "underline":
+      //     this.replaceSelectedWords("++");
+      //     break;
+      //   case "marked":
+      //     this.replaceSelectedWords("==");
+      //     break;
+      //   case "list-ul":
+      //     this.insertText("- ");
+      //     break;
+      //   case "red":
+      //     this.replaceSelectedWords("<span style='color: red'>", "</span>");
+      //     break;
+      //   case "link":
+      //     this.replaceSelectedWords("[", "](https://)");
+      //     break;
+      //   case "view":
+      //     this.view = this.view == 1 ? 0 : 1;
+      //     break;
+      //   case "eye":
+      //     this.view = this.view == 2 ? 1 : 2;
+      //     break;
+      //   case "clear":
+      //     this.inputValue = "";
+      //     this.tr();
+      //     break;
+      //   case "save":
+      //     ipcRenderer.send("saveFile", {
+      //       fileContent: this.inputValue,
+      //       path: this.nowPath
+      //     });
+      //     break;
+      // }
     },
     /**
      * 替换成markdown语法
